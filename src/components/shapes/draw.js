@@ -163,8 +163,8 @@ function drawOne(gd, index) {
                     ops = {
                         ...ops, 
                         clampFn: (dx, dy, minDrag) => {
-                            if(!shapePosition.dx || Math.abs(dx) < minDrag) dx = 0;
-                            if(!shapePosition.dy || Math.abs(dy) < minDrag) dy = 0;
+                            if(!gd._context.edits.shapePosition.dx || Math.abs(dx) < minDrag) dx = 0;
+                            if(!gd._context.edits.shapePosition.dy || Math.abs(dy) < minDrag) dy = 0;
                             return [dx, dy];
                         } 
                     };
