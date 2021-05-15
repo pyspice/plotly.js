@@ -158,7 +158,18 @@ function drawOne(gd, index) {
             displayOutlines(polygons, path, dragOptions);
         } else {
             if(gd._context.edits.shapePosition) {
-                setupDragElement(gd, path, options, index, shapeLayer, editHelpers);
+                let ops = options;
+                if (typeof shapePosition === "object") {
+                    ops = {
+                        ...ops, 
+                        clampFn: (dx, dy, minDrag) => {
+                            if(!shapePosition.dx || Math.abs(dx) < minDrag) dx = 0;
+                            if(!shapePosition.dy || Math.abs(dy) < minDrag) dy = 0;
+                            return [dx, dy];
+                        } 
+                    };
+                }
+                setupDragElement(gd, path, ops, index, shapeLayer, editHelpers);
             } else if(options.editable === true) {
                 path.style('pointer-events',
                     (isOpen || Color.opacity(fillColor) * opacity <= 0.5) ? 'stroke' : 'all'
@@ -217,7 +228,8 @@ function setupDragElement(gd, shapePath, shapeOptions, index, shapeLayer, editHe
         gd: gd,
         prepFn: startDrag,
         doneFn: endDrag,
-        clickFn: abortDrag
+        clickFn: abortDrag,
+        clampFn: shapeOptions.clampFn
     };
     var dragMode;
 
