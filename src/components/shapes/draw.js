@@ -159,7 +159,7 @@ function drawOne(gd, index) {
         } else {
             if(gd._context.edits.shapePosition) {
                 let ops = options;
-                if (typeof shapePosition === "object") {
+                if (typeof gd._context.edits.shapePosition === "object") {
                     ops = {
                         ...ops, 
                         clampFn: (dx, dy, minDrag) => {
